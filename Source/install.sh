@@ -35,9 +35,14 @@ sed -e "s/MYBB_DBNAME/${MYBB_DBNAME}/g" \
     "${CONFIG}/config.php" > "${TARGET}/inc/config.php"
 
 # Initialize database.
-
-mysql -u "${MYBB_DBUSERNAME}" -h "${MYBB_DBHOSTNAME}" -p"${MYBB_DBPASSWORD}" "${MYBB_DBNAME}" < "${CONFIG}/mybb.sql" 2>/dev/null || echo "DB already initialized. Ignoring import errors"
-
+sed -e "s/MYBB_ADMINEMAIL/${MYBB_ADMINEMAIL}/g" \
+    -e "s/MYBB_DOMAINNAME/${MYBB_DOMAINNAME}/g" \
+    "${CONFIG}/mybb.sql" | mysql \
+    --user="$MYBB_DBUSERNAME" \
+    --password="$MYBB_DBPASSWORD" \
+    --host="$MYBB_DBHOSTNAME" \
+    --port="$MYBB_DBPORT" \
+    --database="$MYBB_DBNAME" || echo "WE ASSUME DATA ALREADY EXISTS!"
 	
 	
 # Set proper ownership and permissions.
