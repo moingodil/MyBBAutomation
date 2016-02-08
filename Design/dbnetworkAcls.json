@@ -23,7 +23,7 @@
         "CidrBlock": {
           "Fn::FindInMap": [ "Subnets", "WebServerSubnetA", "CidrBlock" ]
         },
-        "PortRange": { "From": "3306", "To": "3306" }
+        "PortRange": { "From": { "Ref": "DBPort" }, "To":{ "Ref": "DBPort" } }
         }
 		
       
@@ -42,7 +42,7 @@
         "CidrBlock": {
           "Fn::FindInMap": [ "Subnets", "WebServerSubnetB", "CidrBlock" ]
         },
-        "PortRange": { "From": "3306", "To": "3306" }
+        "PortRange": { "From": { "Ref": "DBPort" }, "To": { "Ref": "DBPort" } }
       }
     },
 	
